@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import PostCard from '../components/PostCard.jsx'
+import API_URL from '../api.js'
 
 // TODO (student): Fetch all posts from the backend and render them.
 // Suggested steps:
@@ -16,7 +17,7 @@ function HomePage() {
     /* Fetch all posts from the backend API and update states accordingly. */
     async function fetchAllPosts() {
       try {
-        const response = await fetch ('/api/posts')
+        const response = await fetch(`${API_URL}/api/posts`)
         if (!response.ok) {
           throw new Error(`Unable to fetch the posts ${response.status}`)
         }
@@ -41,7 +42,7 @@ function HomePage() {
         <p className="eyebrow">Blog</p>
         <h1 className="page-title">All posts</h1>
         <p className="page-copy">
-          These Posts have been fetched from <code>/api/posts</code>.
+          These Posts have been fetched from <code>/api/posts</code>
         </p>
       </div>
 

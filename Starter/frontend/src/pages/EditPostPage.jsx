@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import PostForm from '../components/PostForm.jsx'
+import API_URL from '../api.js'
 
 // TODO (student): Implement edit flow.
 // Suggested steps:
@@ -21,7 +22,7 @@ function EditPostPage() {
     //Replaced the placeholder with GET /api/posts/:id fetch logic.
     async function fetchOnePost() {
       try {
-        const response = await fetch(`/api/posts/${id}`)
+        const response = await fetch(`${API_URL}/api/posts/${id}`)
         if (!response.ok) {
           throw new Error(`Unable to fetch the post ${response.status}`)
         }
@@ -50,7 +51,7 @@ function EditPostPage() {
     }
     //implemented PUT /api/posts/:id to update the post and navigate back to the post detail page after successful save.
     try {
-      const response = await fetch(`/api/posts/${id}`, {
+      const response = await fetch(`${API_URL}/api/posts/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

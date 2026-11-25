@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PostForm from '../components/PostForm.jsx'
+import API_URL from '../api.js'
 
 // TODO (student): Implement create flow (POST /api/posts).
 // Suggested steps:
@@ -26,7 +27,7 @@ function NewPostPage() {
     }
 
     try {
-      const response = await fetch('/api/posts', {
+      const response = await fetch(`${API_URL}/api/posts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)

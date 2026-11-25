@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
+import API_URL from '../api.js'
 
 // TODO (student): Implement single-post view and delete flow.
 // Suggested steps:
@@ -20,7 +21,7 @@ function PostPage() {
     //Replaced the placeholder with GET /api/posts/:id fetch logic.
     async function fetchOnePost() {
       try {
-        const response = await fetch(`/api/posts/${id}`)
+        const response = await fetch(`${API_URL}/api/posts/${id}`)
         if (!response.ok) {
           throw new Error(`Unable to fetch the post ${response.status}`)
         }
@@ -39,7 +40,7 @@ function PostPage() {
     //Implemented DELETE /api/posts/:id and navigate('/blog').
     try {
       setDeleting(true)
-      const response = await fetch(`/api/posts/${id}`, {
+      const response = await fetch(`${API_URL}/api/posts/${id}`, {
         method: 'DELETE'
       })
       if (!response.ok) {
