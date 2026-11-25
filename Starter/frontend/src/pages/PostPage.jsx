@@ -17,7 +17,22 @@ function PostPage() {
   const [deleting, setDeleting] = useState(false)
 
   useEffect(() => {
-    // TODO (student): Replace this placeholder with GET /api/posts/:id fetch logic.
+    //Replaced the placeholder with GET /api/posts/:id fetch logic.
+    async function fetchOnePost() {
+      try {
+        const response = await fetch (`/api/posts/${id}`)
+        if (!response.ok) {
+          throw new Error(`Unable to fetch the post ${response.status}`)
+        }
+        const dataInfo = await response.json()
+        setPost(dataInfo)
+       } catch (error) {
+        setError(error.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchOnePost()
     setLoading(false)
   }, [id])
 
