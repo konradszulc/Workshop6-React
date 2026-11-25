@@ -18,8 +18,22 @@ function EditPostPage() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    // TODO (student): Replace this placeholder with GET /api/posts/:id fetch logic.
-    setLoading(false)
+    //Replaced the placeholder with GET /api/posts/:id fetch logic.
+    async function fetchOnePost() {
+      try {
+        const response = await fetch(`/api/posts/${id}`)
+        if (!response.ok) {
+          throw new Error(`Unable to fetch the post ${response.status}`)
+        }
+        const dataInfo = await response.json()
+        setPost(dataInfo)
+      } catch (error) {
+        setError(error.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchOnePost()
   }, [id])
 
   async function handleSubmit(e) {
@@ -27,9 +41,33 @@ function EditPostPage() {
     setSubmitting(true)
     setError(null)
 
-    // TODO (student): Implement PUT /api/posts/:id.
-    setError('TODO: implement PUT /api/posts/:id in EditPostPage')
-    setSubmitting(false)
+    //Implemented PUT /api/posts/:id.
+    const formInput = new FormData(e.target)
+    const body = {
+      title: formInput.get('title'),
+      content: formInput.get('content'),
+      author: formInput.get('author')
+    }
+    //implemented PUT /api/posts/:id to update the post and navigate back to the post detail page after successful save.
+    try {
+      const response = await fetch(`/api/posts/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      })
+      if (!response.ok) {
+        throw new Error(`Unable to update the post ${response.status}`)
+      }
+      const updatedPost = await response.json()
+      setPost(updatedPost)
+      navigate(`/posts/${id}`)
+    } catch (error) {
+      setError(error.message)
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   if (loading) return <p className="status-msg">Loading…</p>

@@ -20,24 +20,24 @@ function PostPage() {
     //Replaced the placeholder with GET /api/posts/:id fetch logic.
     async function fetchOnePost() {
       try {
-        const response = await fetch (`/api/posts/${id}`)
+        const response = await fetch(`/api/posts/${id}`)
         if (!response.ok) {
           throw new Error(`Unable to fetch the post ${response.status}`)
         }
         const dataInfo = await response.json()
         setPost(dataInfo)
-       } catch (error) {
+      } catch (error) {
         setError(error.message)
       } finally {
         setLoading(false)
       }
     }
     fetchOnePost()
-    setLoading(false)
   }, [id])
 
   async function handleDelete() {
     // TODO (student): Implement DELETE /api/posts/:id and navigate('/blog').
+
     setDeleting(true)
     setError('TODO: implement DELETE /api/posts/:id in PostPage')
     setDeleting(false)
