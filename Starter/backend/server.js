@@ -42,7 +42,7 @@ async function connectToDatabase() {
 app.use(express.json());
 //app.use(express.static(publicDir)); Commentted out as not used pagesRouter
 
-app.use(cors({origin: process.env.FRONTEND_ORIGIN || "http://localhost:5173",})); //Enable CORS for the frontend URL specified in the .env file or default to http://localhost:5173
+app.use(cors({origin: process.env.FRONTEND_ORIGIN || "http://localhost:5173"})); //Enable CORS for the frontend URL specified in the .env file or default to http://localhost:5173
 
 //app.use('/', pagesRouter);
 app.use('/api/posts', postsRouter);
