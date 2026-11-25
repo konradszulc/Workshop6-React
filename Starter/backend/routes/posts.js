@@ -50,7 +50,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-  // TODO (student): Implement UPDATE operation for one post.
+  //Implemented UPDATE operation for one post. (Complete)
   // Suggested steps:
   // 1) Keep ObjectId validation for req.params.id.
   // 2) Update the post with req.body using Post.findByIdAndUpdate().
@@ -60,12 +60,22 @@ router.put('/:id', async (req, res) => {
   if (!isValidObjectId(req.params.id)) {
     return res.status(400).json({ error: 'Invalid post id' });
   }
-
-  return res.status(501).json({ message: 'TODO: implement PUT /api/posts/:id' });
+  try {
+    const updatePost = await Post.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    if (!updatePost) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+    return res.json(updatePost);
+  } catch (error) {
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ error: error.message });
+    }
+    return res.status(500).json({ error: 'Server error' });
+  }
 });
 
 router.delete('/:id', async (req, res) => {
-  // TODO (student): Implement DELETE operation for one post.
+  //Implemented DELETE operation for one post. (Complete)
   // Suggested steps:
   // 1) Keep ObjectId validation for req.params.id.
   // 2) Delete the post using Post.findByIdAndDelete().
@@ -75,8 +85,15 @@ router.delete('/:id', async (req, res) => {
   if (!isValidObjectId(req.params.id)) {
     return res.status(400).json({ error: 'Invalid post id' });
   }
-
-  return res.status(501).json({ message: 'TODO: implement DELETE /api/posts/:id' });
+  try {
+    const deletePost = await Post.findByIdAndDelete(req.params.id);
+    if (!deletePost) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+    return res.json({ message: 'Post was deleted successfully' });
+  } catch (error) {
+    return res.status(500).json({ error: 'Server error' });
+  }
 });
 
 module.exports = router;
