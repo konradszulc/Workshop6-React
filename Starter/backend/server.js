@@ -10,7 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const publicDir = path.join(__dirname, 'public');
 
-// ─── TODO: Write the connectToDatabase function ──────────────────────────────
+// ─── TODO: Write the connectToDatabase function (complete)──────────────────────────────
 // This function should:
 //   1. Check if process.env.MONGODB_URI exists
 //      - If missing, warn the user and return early
@@ -23,9 +23,18 @@ const publicDir = path.join(__dirname, 'public');
 //
 // Hint: See WS05 Server.js for the completed version
 
+// this function will connect to the MongoDB database, and will be called before the server starts listening for requests, has error handling, and logs the connection status to the console.
 async function connectToDatabase() {
-  // Your code here
-  throw new Error('connectToDatabase not implemented. See TODO above.')
+   try {
+    if (!process.env.MONGODB_URI) {
+      throw new Error("MONGODB_URI is missing. Create a .env file in backend/ before testing database features.");
+   }
+   await mongoose.connect(process.env.MONGODB_URI, { dbName: 'Blog'});
+   console.log("Connected to MongoDB");
+  } catch (error) {
+    console.error("MongoDB connection error:", error.message);
+    throw error; // Rethrows the error to be handled by the caller
+  }
 }
 
 app.locals.publicDir = publicDir;
