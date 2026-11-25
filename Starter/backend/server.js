@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-const pagesRouter = require('./routes/pages');
+//const pagesRouter = require('./routes/pages'); commentted code out as it is not used in the starter code, but can be uncommented if needed for future use.
 const postsRouter = require('./routes/posts');
 
 const app = express();
@@ -37,20 +37,22 @@ async function connectToDatabase() {
   }
 }
 
-app.locals.publicDir = publicDir;
+//app.locals.publicDir = publicDir; commentted out as not used pagesRouter.
 app.use(express.json());
-app.use(express.static(publicDir));
+//app.use(express.static(publicDir)); Commentted out as not used pagesRouter
 
-app.use('/', pagesRouter);
+//app.use('/', pagesRouter);
 app.use('/api/posts', postsRouter);
 
 app.use((req, res) => {
-  res.status(404).sendFile(path.join(publicDir, '404.html'));
+  //not sending file, just message to indicate that the requested resource was not found, and the server is returning a 404 status code.
+  res.status(404).json({ error: 'Route not found 404' });
 });
 
 app.use((error, req, res, next) => {
   console.error(error.stack);
-  res.status(500).sendFile(path.join(publicDir, '500.html'));
+  //not sending file, just message to indicate the server encountered an error
+  res.status(500).json({ error: 'Internal server error 500' });
 });
 
 connectToDatabase().then(() => {
