@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 require('dotenv').config();
 
 //const pagesRouter = require('./routes/pages'); commentted code out as it is not used in the starter code, but can be uncommented if needed for future use.
@@ -8,7 +9,7 @@ const postsRouter = require('./routes/posts');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const publicDir = path.join(__dirname, 'public');
+
 
 // ─── TODO: Write the connectToDatabase function (complete)──────────────────────────────
 // This function should:
@@ -40,6 +41,8 @@ async function connectToDatabase() {
 //app.locals.publicDir = publicDir; commentted out as not used pagesRouter.
 app.use(express.json());
 //app.use(express.static(publicDir)); Commentted out as not used pagesRouter
+
+app.use(cors({origin: process.env.FRONTEND_ORIGIN || "http://localhost:5173",})); //Enable CORS for the frontend URL specified in the .env file or default to http://localhost:5173
 
 //app.use('/', pagesRouter);
 app.use('/api/posts', postsRouter);
