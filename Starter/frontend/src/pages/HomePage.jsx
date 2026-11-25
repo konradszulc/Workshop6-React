@@ -13,8 +13,23 @@ function HomePage() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    // TODO (student): Replace this placeholder with real fetch logic.
-    setLoading(false)
+    /* Fetch all posts from the backend API and update states accordingly. */
+    async function fetchAllPosts() {
+      try {
+        const response = await fetch ('/api/posts')
+        if (!response.ok) {
+          throw new Error(`Unable to fetch the posts ${response.status}`)
+        }
+        const dataInfo = await response.json()
+        setPosts(dataInfo)
+       } catch (error) {
+        setError(error.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+    /* Call the function to fetch posts when the component mounts*/
+    fetchAllPosts()
   }, [])
 
   if (loading) return <p className="status-msg">Loading posts…</p>
@@ -26,7 +41,7 @@ function HomePage() {
         <p className="eyebrow">Blog</p>
         <h1 className="page-title">All posts</h1>
         <p className="page-copy">
-          TODO: Implement fetching posts from <code>/api/posts</code>.
+          These Posts have been fetched from <code>/api/posts</code>.
         </p>
       </div>
 
