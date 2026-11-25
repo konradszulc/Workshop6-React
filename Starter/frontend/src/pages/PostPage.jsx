@@ -36,11 +36,21 @@ function PostPage() {
   }, [id])
 
   async function handleDelete() {
-    // TODO (student): Implement DELETE /api/posts/:id and navigate('/blog').
-
-    setDeleting(true)
-    setError('TODO: implement DELETE /api/posts/:id in PostPage')
-    setDeleting(false)
+    //Implemented DELETE /api/posts/:id and navigate('/blog').
+    try {
+      setDeleting(true)
+      const response = await fetch(`/api/posts/${id}`, {
+        method: 'DELETE'
+      })
+      if (!response.ok) {
+        throw new Error(`Unable to delete the post ${response.status}`)
+      }
+      navigate('/blog')
+    } catch (error) {
+      setError(error.message)
+    } finally {
+      setDeleting(false)
+    }
   }
 
   if (loading) return <p className="status-msg">Loading…</p>
